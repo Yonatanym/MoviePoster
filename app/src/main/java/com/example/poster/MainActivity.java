@@ -17,21 +17,25 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PostersListener {
 
+    // Declare a button to add posters to the watchlist
     private Button buttonAddToWatchlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Enable edge-to-edge display to allow the content to extend to the edges of the screen
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        // Set an OnApplyWindowInsetsListener to handle insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Initialize RecyclerView for displaying posters
 
         RecyclerView postersRecyclerView = findViewById(R.id.postersRecyclerView);
-
+        // Initialize the button to add posters to the watchlist
         buttonAddToWatchlist = findViewById(R.id.buttonAddToWatchlist);
 
         //prepare data
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements PostersListener {
         the100.story = "hhu";
         posterList.add(the100);
 
-
+        // Create a Poster object for the Japanese movie
         Poster japaneseMovie = new Poster();
         japaneseMovie.image = R.drawable.image1;
         japaneseMovie.name = "j Movie";
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements PostersListener {
         japaneseMovie.story = "hhu";
         posterList.add(japaneseMovie);
 
+        // Create a Poster object for the American movie
         Poster americanMovie = new Poster();
         americanMovie.image = R.drawable.image2;
         americanMovie.name = "A Movie";
@@ -79,10 +84,12 @@ public class MainActivity extends AppCompatActivity implements PostersListener {
 
         public void onClick (View v){
 
+            // Get the list of selected posters from the adapter
         List<Poster> selectPosters = posterAdapter.getSelectedPosters();
 
         StringBuilder posterNames = new StringBuilder();
 
+            // Loop through the selected posters and append their names to the StringBuilder
         for (int i = 0; i < selectPosters.size(); i++) {
 
             if (i == 0) {
@@ -95,15 +102,19 @@ public class MainActivity extends AppCompatActivity implements PostersListener {
             }
         }
 
+            // Show a Toast message with the names of the selected posters
         Toast.makeText(MainActivity.this, posterNames.toString(), Toast.LENGTH_SHORT).show();
 
     }
     });
 }
 
+    // Implement the onPosterAction method from the PostersListener interface
 
     @Override
     public void onPosterAction(Boolean isSelected) {
+
+        // If a poster is selected, show the "Add to Watchlist" button
         if(isSelected) {
 
         buttonAddToWatchlist.setVisibility(View.VISIBLE);
